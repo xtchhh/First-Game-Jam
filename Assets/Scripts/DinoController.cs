@@ -1,17 +1,21 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class DinoController : MonoBehaviour
 {
-    private float walk = 5f;
+    private float moveSpeed = 5f;
+    private float jumpSpeed = 2f;
     public InputSystem_Actions dinoActions;
     private Vector2 move;
-    private Camera cam;
+    public Camera dinoCamera;
+    private float velocity;
 
     void Awake()
     {
         dinoActions = new InputSystem_Actions();
-        cam = GetComponent<Camera>();
     }
 
     void OnEnable()
@@ -22,17 +26,53 @@ public class DinoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        temporaryMove();
+        Movement();
+        Gravity();
     }
 
-    void temporaryMove()
+    void Gravity()
     {
-        move = dinoActions.Player.Move.ReadValue<Vector2>();
-        Vector3 dinoMove = new Vector3(move.x, 0, move.y);
-
-        if (dinoActions.Player.Move.ReadValue<Vector2>().sqrMagnitude > 0.1)
+        if(!IsGrounded())
         {
-            transform.Translate(dinoMove * walk * Time.deltaTime);
+            velocity += -9.81f * Time.deltaTime;
+        }
+        else
+        {
+            velocity = 0;
+        }
+    }
+
+    void Movement()
+    {
+
+        Debug.Log(IsGrounded());
+        move = dinoActions.Player.Move.ReadValue<Vector2>();
+
+        Vector3 forward = dinoCamera.transform.forward;
+        Vector3 right = dinoCamera.transform.right;
+
+        right.y = 0;
+        right = right.normalized;
+
+        forward.y = 0;
+        forward = forward.normalized;
+
+        Vector3 forwardInput = forward * move.y;
+        Vector3 rightInput = right * move.x;
+
+        Vector3 moveDirection = forwardInput + rightInput + new Vector3(0, velocity, 0);
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+    }
+
+    private bool IsGrounded()
+    {
+        if (Physics.Raycast(transform.position + transform.up * 0.25f, -transform.up, 0.3f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
