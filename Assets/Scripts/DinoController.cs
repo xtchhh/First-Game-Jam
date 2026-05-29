@@ -3,11 +3,11 @@ using UnityEngine.InputSystem;
 
 public class DinoController : MonoBehaviour
 {
-    private float moveSpeed = 5f;
-    public InputSystem_Actions dinoActions;
-    private Vector2 move;
-    public Camera dinoCamera;
+    private float moveSpeed = 2.5f;
     private float velocity;
+    public InputSystem_Actions dinoActions;
+    public Camera dinoCamera;
+    private Vector2 move;
     private Vector3 moveDirection;
 
     void Awake()
@@ -20,13 +20,13 @@ public class DinoController : MonoBehaviour
         dinoActions.Enable();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Movement();
         Gravity();
         LookAtDirection();
-        Debug.Log(IsGrounded());
+        //Debug.Log(IsGrounded());
+        Debug.Log($"The baryonyx's position is {transform.position}");
     }
 
     void Gravity()
