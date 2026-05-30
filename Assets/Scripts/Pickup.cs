@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class Pickup : MonoBehaviour
 {
     private GameObject baryonyx;
-    public TextMeshProUGUI collect;
 
     void Awake()
     {
@@ -20,6 +19,7 @@ public class Pickup : MonoBehaviour
 
         if (distance <= 2.5)
         {
+            transform.Translate(Vector3.up * 1.0f);
             this.gameObject.SetActive(false);
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class DinoController : MonoBehaviour
 {
-    private float moveSpeed = 2.5f;
+    public float moveSpeed;
     private float velocity;
     public InputSystem_Actions dinoActions;
     public Camera dinoCamera;
