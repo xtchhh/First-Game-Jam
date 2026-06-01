@@ -26,7 +26,7 @@ public class DinoController : MonoBehaviour
         Gravity();
         LookAtDirection();
         //Debug.Log(IsGrounded());
-        Debug.Log($"The baryonyx's position is {transform.position}");
+        //Debug.Log($"The baryonyx's position is {transform.position}");
     }
 
     void Gravity()
